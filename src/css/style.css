@@ -1,0 +1,184 @@
+/* Reset básico e configuração de fonte */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+  outline: none;
+}
+
+body {
+  background: #f5f5f5;
+  color: #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 20px;
+}
+
+/* Estrutura principal */
+main {
+  max-width: 600px;
+  width: 100%;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+h3{
+  text-align: center;
+  color: #2C73D2;
+}
+
+/* Resumo financeiro */
+.resume {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.resume > div {
+  background: #f9f9f9;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+  padding: 15px;
+  width: 150px;
+  text-align: center;
+  font-size: 1rem;
+}
+
+.resume span {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+/* Formulário de inclusão */
+.newItem {
+  display: flex;
+  gap: 15px;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.newItem div {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.newItem label {
+  font-weight: bold;
+  font-size: 0.9rem;
+  margin-bottom: 5px;
+  color: #555;
+}
+
+.newItem input,
+.newItem select {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.newItem > button {
+  background-color: #2C73D2;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.newItem > button:hover {
+  background-color: #235bb5;
+}
+
+/* Tabela de transações */
+.divTable {
+  width: 100%;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+thead th {
+  font-size: 0.95rem;
+  text-align: left;
+  padding: 10px 0;
+  border-bottom: 2px solid #ddd;
+}
+
+tbody tr {
+  transition: background-color 0.2s ease;
+}
+
+tbody tr:hover {
+  background-color: #f9f9f9;
+}
+
+td {
+  padding: 10px 5px;
+  font-size: 0.9rem;
+}
+
+.columnAction {
+  text-align: center;
+  width: 50px;
+}
+
+.columnAction > button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: #777;
+  transition: color 0.3s ease;
+}
+
+.columnAction > button:hover {
+  color: #d83121;
+}
+
+.bxs-chevron-up-circle {
+  color: #00C9A7;
+}
+
+.bxs-chevron-down-circle {
+  color: #D83121;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .resume {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .newItem {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .divTable {
+    overflow-x: auto;
+  }
+
+  table {
+    width: 100%;
+  }
+}
