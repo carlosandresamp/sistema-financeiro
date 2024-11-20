@@ -1,24 +1,24 @@
 // Tipos para transações e elementos HTML
 type Transaction = {
   desc: string;
-  amount: string; // Valor formatado como string com duas casas decimais
+  amount: number; // Valor armazenado como número
   type: "Entrada" | "Saída";
+  month: number; // Representa o mês (0 = Janeiro, 11 = Dezembro)
+  timestamp: string; // Data e hora do registro
 };
 
-type HTMLInputElementOrNull = HTMLInputElement | null;
-type HTMLTableElementOrNull = HTMLTableElement | null;
-type HTMLElementOrNull = HTMLElement | null;
-
-// Seleção de elementos com checagem de tipos
+// Seleção de elementos HTML
 const tbody: HTMLTableSectionElement | null = document.querySelector("tbody");
-const descItem: HTMLInputElementOrNull = document.querySelector("#desc");
-const amount: HTMLInputElementOrNull = document.querySelector("#amount");
-const type: HTMLInputElementOrNull = document.querySelector("#type");
-const btnNew: HTMLElementOrNull = document.querySelector("#btnNew");
+const descItem: HTMLInputElement | null = document.querySelector("#desc");
+const amount: HTMLInputElement | null = document.querySelector("#amount");
+const type: HTMLSelectElement | null = document.querySelector("#type");
+const btnNew: HTMLElement | null = document.querySelector("#btnNew");
+const monthFilter: HTMLSelectElement | null = document.querySelector("#month");
+const btnDownloadTxt = document.querySelector("#btnDownloadTxt") as HTMLButtonElement;
 
-const incomes: HTMLElementOrNull = document.querySelector(".incomes");
-const expenses: HTMLElementOrNull = document.querySelector(".expenses");
-const total: HTMLElementOrNull = document.querySelector(".total");
+const incomes: HTMLElement | null = document.querySelector(".incomes");
+const expenses: HTMLElement | null = document.querySelector(".expenses");
+const total: HTMLElement | null = document.querySelector(".total");
 
 // Lista de transações
 let items: Transaction[] = [];
@@ -31,10 +31,34 @@ if (btnNew) {
       return alert("Preencha todos os campos!");
     }
 
+    const currentMonth = parseInt(monthFilter!.value); // Mês selecionado no filtro
+    const newAmount = parseFloat(amount.value);
+    const newType = type.value as "Entrada" | "Saída";
+
+    // Verificar saldo atual
+    const currentItems = items.filter((item) => item.month === currentMonth);
+    const totalIncomes = currentItems
+      .filter((item) => item.type === "Entrada")
+      .reduce((acc, item) => acc + item.amount, 0);
+    const totalExpenses = currentItems
+      .filter((item) => item.type === "Saída")
+      .reduce((acc, item) => acc + item.amount, 0);
+    const totalBalance = totalIncomes - totalExpenses;
+
+    if (newType === "Saída" && newAmount > totalBalance) {
+      return alert("O valor de saída não pode ser maior que o saldo disponível!");
+    }
+
+    // Capturar a data e hora atuais
+    const now = new Date();
+    const formattedTimestamp = now.toLocaleString(); // Formato padrão: dd/mm/yyyy, hh:mm:ss
+
     const newTransaction: Transaction = {
       desc: descItem.value.trim(),
-      amount: Math.abs(parseFloat(amount.value)).toFixed(2), // Formata para 2 casas decimais
-      type: type.value as "Entrada" | "Saída", // Garante que o valor seja um dos tipos esperados
+      amount: newAmount, // Valor como número
+      type: newType,
+      month: currentMonth,
+      timestamp: formattedTimestamp, // Registrar data e hora
     };
 
     items.push(newTransaction);
@@ -62,11 +86,11 @@ function insertItem(item: Transaction, index: number): void {
 
   tr.innerHTML = `
     <td>${item.desc}</td>
-    <td>R$ ${item.amount}</td>
-    <td class="columnType">${
-      item.type === "Entrada"
-        ? '<i class="bx bxs-chevron-up-circle"></i>'
-        : '<i class="bx bxs-chevron-down-circle"></i>'
+    <td>R$ ${item.amount.toFixed(2)}</td>
+    <td>${item.timestamp}</td>
+    <td class="columnType">${item.type === "Entrada"
+      ? '<i class="bx bxs-chevron-up-circle"></i>'
+      : '<i class="bx bxs-chevron-down-circle"></i>'
     }</td>
     <td class="columnAction">
       <button onclick="deleteItem(${index})"><i class='bx bx-trash'></i></button>
@@ -76,44 +100,37 @@ function insertItem(item: Transaction, index: number): void {
   tbody.appendChild(tr);
 }
 
-// Carregar transações na interface
+// Carregar transações com base no mês selecionado
 function loadItens(): void {
   items = getItensBD();
-  if (!tbody) return;
+  if (!tbody || !monthFilter) return;
+
+  const selectedMonth = parseInt(monthFilter.value);
+  const filteredItems = items.filter((item) => item.month === selectedMonth);
 
   tbody.innerHTML = "";
-  items.forEach((item, index) => {
+  filteredItems.forEach((item, index) => {
     insertItem(item, index);
   });
 
-  getTotals();
+  getTotals(filteredItems);
 }
 
-// Calcular totais
-function getTotals(): void {
-  const amountIncomes = items
+// Atualizar totais com base nas transações filtradas
+function getTotals(filteredItems: Transaction[]): void {
+  const totalIncomes = filteredItems
     .filter((item) => item.type === "Entrada")
-    .map((transaction) => parseFloat(transaction.amount));
+    .reduce((acc, item) => acc + item.amount, 0);
 
-  const amountExpenses = items
+  const totalExpenses = filteredItems
     .filter((item) => item.type === "Saída")
-    .map((transaction) => parseFloat(transaction.amount));
+    .reduce((acc, item) => acc + item.amount, 0);
 
-  const totalIncomes = amountIncomes
-    .reduce((acc, cur) => acc + cur, 0)
-    .toFixed(2);
+  const totalBalance = totalIncomes - totalExpenses;
 
-  const totalExpenses = Math.abs(
-    amountExpenses.reduce((acc, cur) => acc + cur, 0)
-  ).toFixed(2);
-
-  const totalItems = (
-    parseFloat(totalIncomes) - parseFloat(totalExpenses)
-  ).toFixed(2);
-
-  if (incomes) incomes.innerHTML = totalIncomes;
-  if (expenses) expenses.innerHTML = totalExpenses;
-  if (total) total.innerHTML = totalItems;
+  if (incomes) incomes.textContent = totalIncomes.toFixed(2);
+  if (expenses) expenses.textContent = totalExpenses.toFixed(2);
+  if (total) total.textContent = totalBalance.toFixed(2);
 }
 
 // Funções para manipulação do localStorage
@@ -123,6 +140,27 @@ const getItensBD = (): Transaction[] =>
 const setItensBD = (): void => {
   localStorage.setItem("db_items", JSON.stringify(items));
 };
+
+// Atualizar a interface ao mudar o mês
+monthFilter!.onchange = () => loadItens();
+
+if (btnDownloadTxt) {
+  btnDownloadTxt.onclick = () => {
+    const summary = items
+      .map(
+        (item) =>
+          `${item.type} - ${item.desc}: R$ ${item.amount.toFixed(2)} (Mês: ${item.month + 1
+          }, Registrado em: ${item.timestamp})`
+      )
+      .join("\n");
+
+    const blob = new Blob([summary], { type: "text/plain;charset=utf-8" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "resumo_transacoes.txt";
+    link.click();
+  };
+}
 
 // Inicializar carregamento
 loadItens();

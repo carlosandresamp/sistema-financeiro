@@ -27,6 +27,23 @@
         <span class="total">0.00</span>
       </div>
     </div>
+    <div class="monthFilter">
+      <label for="month">Selecionar mês:</label>
+      <select id="month">
+        <option value="0">Janeiro</option>
+        <option value="1">Fevereiro</option>
+        <option value="2">Março</option>
+        <option value="3">Abril</option>
+        <option value="4">Maio</option>
+        <option value="5">Junho</option>
+        <option value="6">Julho</option>
+        <option value="7">Agosto</option>
+        <option value="8">Setembro</option>
+        <option value="9">Outubro</option>
+        <option value="10">Novembro</option>
+        <option value="11">Dezembro</option>
+      </select>
+    </div>
     <div class="newItem">
       <div class="divDesc">
         <label for="desc">Descrição</label>
@@ -44,7 +61,6 @@
         </select>
       </div>
       <button id="btnNew">Incluir</button>
-      <button id="btnGeneratePDF">Gerar PDF</button>
     </div>
     <div class="divTable">
       <table>
@@ -52,6 +68,7 @@
           <tr>
             <th>Descrição</th>
             <th class="columnAmount">Valor</th>
+            <th class="columnDate">Data do Registro</th>
             <th class="columnType">Tipo</th>
             <th class="columnAction"></th>
           </tr>
@@ -59,9 +76,10 @@
         <tbody>
         </tbody>
       </table>
-  </main>
+      <button id="btnDownloadTxt">Baixar Resumo (TXT)</button>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    </div>
+  </main>
   <script src="/src/js/script.js"></script>
 </body>
 
