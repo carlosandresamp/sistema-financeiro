@@ -139,6 +139,10 @@ table th {
   color: #00C9A7;
 }
 
+.bxs-chevron-down-circle {
+  color: #ff0000;
+}
+
 /* Estilização para o botão "Baixar Resumo (TXT)" */
 button#btnDownloadTxt {
   padding: 10px 20px;
