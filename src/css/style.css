@@ -136,6 +136,7 @@ button#btnClearAll {
   background-color: #dc3545;
   color: white;
   border-color: #dc3545;
+  margin-top: 10px;
 }
 
 button#btnClearAll:hover {
