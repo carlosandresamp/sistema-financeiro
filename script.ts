@@ -14,7 +14,9 @@ const amount: HTMLInputElement | null = document.querySelector("#amount");
 const type: HTMLSelectElement | null = document.querySelector("#type");
 const btnNew: HTMLElement | null = document.querySelector("#btnNew");
 const monthFilter: HTMLSelectElement | null = document.querySelector("#month");
+
 const btnDownloadTxt = document.querySelector("#btnDownloadTxt") as HTMLButtonElement;
+const btnClearAll = document.querySelector("#btnClearAll") as HTMLButtonElement;
 
 const incomes: HTMLElement | null = document.querySelector(".incomes");
 const expenses: HTMLElement | null = document.querySelector(".expenses");
@@ -68,6 +70,16 @@ if (btnNew) {
     // Limpar campos
     descItem.value = "";
     amount.value = "";
+  };
+}
+
+if (btnClearAll) {
+  btnClearAll.onclick = () => {
+    if (confirm("Tem certeza de que deseja limpar todos os registros?")) {
+      items = []; // Limpar a lista de transações
+      setItensBD(); // Atualizar o localStorage
+      loadItens(); // Recarregar a interface
+    }
   };
 }
 

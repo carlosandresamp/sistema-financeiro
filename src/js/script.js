@@ -7,6 +7,7 @@ const type = document.querySelector("#type");
 const btnNew = document.querySelector("#btnNew");
 const monthFilter = document.querySelector("#month");
 const btnDownloadTxt = document.querySelector("#btnDownloadTxt");
+const btnClearAll = document.querySelector("#btnClearAll");
 const incomes = document.querySelector(".incomes");
 const expenses = document.querySelector(".expenses");
 const total = document.querySelector(".total");
@@ -51,6 +52,15 @@ if (btnNew) {
         // Limpar campos
         descItem.value = "";
         amount.value = "";
+    };
+}
+if (btnClearAll) {
+    btnClearAll.onclick = () => {
+        if (confirm("Tem certeza de que deseja limpar todos os registros?")) {
+            items = []; // Limpar a lista de transações
+            setItensBD(); // Atualizar o localStorage
+            loadItens(); // Recarregar a interface
+        }
     };
 }
 // Função para deletar transação
