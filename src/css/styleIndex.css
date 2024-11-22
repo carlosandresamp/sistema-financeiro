@@ -176,6 +176,34 @@ table td {
   color: #ff0000;
 }
 
+header {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px 20px;
+  background-color: #007bff;
+}
+
+.logout-btn {
+  background-color: #dc3545;
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.logout-btn:hover {
+  background-color: #c82333;
+  transform: scale(1.05);
+}
+
+.logout-btn:active {
+  background-color: #bd2130;
+  transform: scale(0.95);
+}
+
 /* Responsividade */
 @media (max-width: 1024px) {
   .resume {

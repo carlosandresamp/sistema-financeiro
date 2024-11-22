@@ -1,78 +1,73 @@
 "use strict";
-// Seleção de elementos HTML
 const tbody = document.querySelector("tbody");
 const descItem = document.querySelector("#desc");
 const amount = document.querySelector("#amount");
 const type = document.querySelector("#type");
 const btnNew = document.querySelector("#btnNew");
 const monthFilter = document.querySelector("#month");
+const btnLogout = document.querySelector("#btnLogout");
 const btnDownloadTxt = document.querySelector("#btnDownloadTxt");
 const btnClearAll = document.querySelector("#btnClearAll");
 const incomes = document.querySelector(".incomes");
 const expenses = document.querySelector(".expenses");
 const total = document.querySelector(".total");
-// Lista de transações
 let items = [];
+// Obter usuário logado
+const loggedUser = sessionStorage.getItem("loggedUser");
+if (!loggedUser) {
+    window.location.href = "login.html";
+}
+// Função para carregar dados do localStorage do usuário logado
+const loadUserTransactions = () => {
+    const userTransactions = localStorage.getItem(`transactions_${loggedUser}`);
+    return userTransactions ? JSON.parse(userTransactions) : [];
+};
+// Função para salvar dados no localStorage
+const saveUserTransactions = () => {
+    localStorage.setItem(`transactions_${loggedUser}`, JSON.stringify(items));
+};
+// Inicializar lista de transações ao carregar o sistema
+items = loadUserTransactions();
 // Adicionar nova transação
-if (btnNew) {
-    btnNew.onclick = () => {
-        if (!descItem || !amount || !type)
-            return; // Verifica se os elementos existem
-        if (descItem.value === "" || amount.value === "" || type.value === "") {
-            return alert("Preencha todos os campos!");
-        }
-        const currentMonth = parseInt(monthFilter.value); // Mês selecionado no filtro
-        const newAmount = parseFloat(amount.value);
-        const newType = type.value;
-        // Verificar saldo atual
-        const currentItems = items.filter((item) => item.month === currentMonth);
-        const totalIncomes = currentItems
-            .filter((item) => item.type === "Entrada")
-            .reduce((acc, item) => acc + item.amount, 0);
-        const totalExpenses = currentItems
-            .filter((item) => item.type === "Saída")
-            .reduce((acc, item) => acc + item.amount, 0);
-        const totalBalance = totalIncomes - totalExpenses;
-        if (newType === "Saída" && newAmount > totalBalance) {
-            return alert("O valor de saída não pode ser maior que o saldo disponível!");
-        }
-        // Capturar a data e hora atuais
-        const now = new Date();
-        const formattedTimestamp = now.toLocaleString(); // Formato padrão: dd/mm/yyyy, hh:mm:ss
-        const newTransaction = {
-            desc: descItem.value.trim(),
-            amount: newAmount, // Valor como número
-            type: newType,
-            month: currentMonth,
-            timestamp: formattedTimestamp, // Registrar data e hora
-        };
-        items.push(newTransaction);
-        setItensBD();
-        loadItens();
-        // Limpar campos
-        descItem.value = "";
-        amount.value = "";
+btnNew.onclick = () => {
+    if (!descItem || !amount || !type)
+        return;
+    if (descItem.value === "" || amount.value === "") {
+        alert("Preencha todos os campos!");
+        return;
+    }
+    const currentMonth = parseInt(monthFilter.value);
+    const newAmount = parseFloat(amount.value);
+    const newType = type.value;
+    const now = new Date();
+    const formattedTimestamp = now.toLocaleString();
+    const newTransaction = {
+        desc: descItem.value.trim(),
+        amount: newAmount,
+        type: newType,
+        month: currentMonth,
+        timestamp: formattedTimestamp,
     };
-}
-if (btnClearAll) {
-    btnClearAll.onclick = () => {
-        if (confirm("Tem certeza de que deseja limpar todos os registros?")) {
-            items = []; // Limpar a lista de transações
-            setItensBD(); // Atualizar o localStorage
-            loadItens(); // Recarregar a interface
-        }
-    };
-}
-// Função para deletar transação
-function deleteItem(index) {
-    items.splice(index, 1);
-    setItensBD();
+    items.push(newTransaction);
+    saveUserTransactions();
     loadItens();
-}
-// Inserir transação na tabela
-function insertItem(item, index) {
+    descItem.value = "";
+    amount.value = "";
+};
+// Função para carregar transações
+function loadItens() {
     if (!tbody)
         return;
+    const selectedMonth = parseInt(monthFilter.value);
+    const filteredItems = items.filter((item) => item.month === selectedMonth);
+    tbody.innerHTML = "";
+    filteredItems.forEach((item, index) => {
+        insertItem(item, index);
+    });
+    updateTotals(filteredItems);
+}
+// Função para inserir transações na tabela
+function insertItem(item, index) {
     const tr = document.createElement("tr");
     tr.innerHTML = `
     <td>${item.desc}</td>
@@ -87,21 +82,14 @@ function insertItem(item, index) {
   `;
     tbody.appendChild(tr);
 }
-// Carregar transações com base no mês selecionado
-function loadItens() {
-    items = getItensBD();
-    if (!tbody || !monthFilter)
-        return;
-    const selectedMonth = parseInt(monthFilter.value);
-    const filteredItems = items.filter((item) => item.month === selectedMonth);
-    tbody.innerHTML = "";
-    filteredItems.forEach((item, index) => {
-        insertItem(item, index);
-    });
-    getTotals(filteredItems);
+// Função para excluir transação
+function deleteItem(index) {
+    items.splice(index, 1);
+    saveUserTransactions();
+    loadItens();
 }
-// Atualizar totais com base nas transações filtradas
-function getTotals(filteredItems) {
+// Atualizar totais
+function updateTotals(filteredItems) {
     const totalIncomes = filteredItems
         .filter((item) => item.type === "Entrada")
         .reduce((acc, item) => acc + item.amount, 0);
@@ -109,20 +97,24 @@ function getTotals(filteredItems) {
         .filter((item) => item.type === "Saída")
         .reduce((acc, item) => acc + item.amount, 0);
     const totalBalance = totalIncomes - totalExpenses;
-    if (incomes)
-        incomes.textContent = totalIncomes.toFixed(2);
-    if (expenses)
-        expenses.textContent = totalExpenses.toFixed(2);
-    if (total)
-        total.textContent = totalBalance.toFixed(2);
+    incomes.textContent = totalIncomes.toFixed(2);
+    expenses.textContent = totalExpenses.toFixed(2);
+    total.textContent = totalBalance.toFixed(2);
 }
-// Funções para manipulação do localStorage
-const getItensBD = () => JSON.parse(localStorage.getItem("db_items") || "[]");
-const setItensBD = () => {
-    localStorage.setItem("db_items", JSON.stringify(items));
+// Logout
+btnLogout.onclick = () => {
+    sessionStorage.clear();
+    window.location.href = "login.html";
 };
-// Atualizar a interface ao mudar o mês
-monthFilter.onchange = () => loadItens();
+if (btnClearAll) {
+    btnClearAll.onclick = () => {
+        if (confirm("Tem certeza de que deseja limpar todos os registros?")) {
+            items = []; // Limpar a lista de transações
+            saveUserTransactions(); // Atualizar o localStorage
+            loadItens(); // Recarregar a interface
+        }
+    };
+}
 if (btnDownloadTxt) {
     btnDownloadTxt.onclick = () => {
         const summary = items
@@ -135,5 +127,5 @@ if (btnDownloadTxt) {
         link.click();
     };
 }
-// Inicializar carregamento
+// Inicializar o sistema
 loadItens();
