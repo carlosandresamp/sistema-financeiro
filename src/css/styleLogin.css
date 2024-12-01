@@ -1,4 +1,10 @@
 /* Estilização geral */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* Corrige o cálculo de largura com padding e borda */
+}
+
 body {
   font-family: 'Poppins', sans-serif;
   background: linear-gradient(135deg, #2e59d9, #224abe);
@@ -32,8 +38,16 @@ main {
   padding: 25px;
   border-radius: 10px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-  width: 90%;
-  max-width: 400px;
+  width: 100%; /* Para preencher a largura */
+  max-width: 400px; /* Limita o tamanho máximo */
+  box-sizing: border-box; /* Garante que padding seja incluído no cálculo de largura */
+  overflow: hidden; /* Previne overflow */
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
 /* Título */
@@ -61,13 +75,14 @@ label {
 /* Inputs */
 input[type="text"],
 input[type="password"] {
-  width: 100%;
+  width: 100%; /* Garante que o input ocupe toda a largura disponível */
   padding: 10px;
   font-size: 1rem;
   border: 2px solid #ddd;
   border-radius: 8px;
   background: #f9f9f9;
   transition: border-color 0.3s ease;
+  box-sizing: border-box; /* Inclui o padding no cálculo da largura */
 }
 
 input[type="text"]:focus,
@@ -78,7 +93,7 @@ input[type="password"]:focus {
 
 /* Botão */
 button {
-  width: 100%;
+  width: 100%; /* Garante que o botão ocupe toda a largura disponível */
   padding: 10px;
   font-size: 1rem;
   background: #007bff;
@@ -109,57 +124,13 @@ button:active {
 }
 
 /* Responsividade */
-@media (max-width: 768px) {
-  main {
-    padding: 15px;
-    width: 90%;
-  }
-
-  h3 {
-    font-size: 1.6rem;
-  }
-
-  button {
-    font-size: 0.95rem;
-    max-width: 99%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  input[type="text"],
-  input[type="password"] {
-    font-size: 0.9rem;
-    max-width: 92%;
-  }
-}
-
 @media (max-width: 480px) {
-  .logo img {
-    max-width: 70%;
-  }
-
   main {
-    padding: 15px;
-    width: 90%;
+    padding: 20px;
+    max-width: 300px; /* Ajusta o tamanho máximo para telas menores */
   }
 
-  h3 {
-    font-size: 1.4rem;
-  }
-
-  button {
-    font-size: 0.9rem;
-    max-width: 99%;
-  }
-
-  input[type="text"],
-  input[type="password"] {
-    font-size: 0.9rem;
-    max-width: 92%;
-  }
-
-  label {
-    font-size: 0.9rem;
+  .logo img {
+    max-width: 70%; /* Garante que a logo não ultrapasse o container */
   }
 }

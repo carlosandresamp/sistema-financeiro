@@ -247,6 +247,10 @@ header {
   button {
     width: 100%;
   }
+
+  .divTable {
+    overflow-x: auto; /* Permite rolagem horizontal para tabelas grandes */
+  }
 }
 
 @media (max-width: 768px) {
@@ -261,23 +265,37 @@ header {
 
   main {
     padding: 15px;
-    width: 90%;
+    width: 95%;
   }
 
   h3 {
     font-size: 1.5rem;
   }
 
+  .resume div {
+    padding: 10px;
+    font-size: 1rem;
+  }
+
   table th,
   table td {
     font-size: 0.8rem;
   }
+
+  .monthFilter {
+    gap: 5px;
+  }
 }
 
 @media (max-width: 480px) {
+  .resume {
+    gap: 10px;
+  }
+
   .resume div {
-    font-size: 1rem;
+    font-size: 0.9rem;
     padding: 8px;
+    min-width: auto; /* Remove o mínimo de largura */
   }
 
   .monthFilter {
@@ -288,9 +306,23 @@ header {
   table th,
   table td {
     font-size: 0.7rem;
+    padding: 8px;
   }
 
-  .divTable {
-    overflow-x: auto;
+  .newItem {
+    grid-template-columns: 1fr;
+  }
+
+  button {
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+
+  main {
+    padding: 10px;
+  }
+
+  h3 {
+    font-size: 1.2rem;
   }
 }
