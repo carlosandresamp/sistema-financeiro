@@ -1,9 +1,17 @@
-/* Estilização geral */
+/* Estilo geral */
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #2e59d9, #224abe);
+  color: #333;
   margin: 0;
   padding: 0;
+  animation: gradientBg 10s infinite alternate;
+}
+
+@keyframes gradientBg {
+  0% { background: linear-gradient(135deg, #2e59d9, #224abe); }
+  50% { background: linear-gradient(135deg, #1d3faa, #0f2a73); }
+  100% { background: linear-gradient(135deg, #2e59d9, #224abe); }
 }
 
 main {
@@ -42,7 +50,17 @@ h3 {
   border-radius: 6px;
 }
 
-.incomes, .expenses, .total {
+.incomes{
+  font-weight: bold;
+  color: #00C9A7;
+}
+
+.expenses{
+  font-weight: bold;
+  color: #c90000;
+}
+
+.total {
   font-weight: bold;
   color: #007bff;
 }
@@ -67,7 +85,8 @@ select {
   transition: all 0.3s ease;
 }
 
-select:hover, select:focus {
+select:hover,
+select:focus {
   background-color: #0056b3;
   border-color: #0056b3;
   outline: none;
@@ -86,14 +105,16 @@ select:hover, select:focus {
   font-weight: bold;
 }
 
-.newItem input, .newItem select {
+.newItem input,
+.newItem select {
   padding: 10px;
   font-size: 1rem;
   border-radius: 6px;
   border: 2px solid #ccc;
 }
 
-.newItem input:focus, .newItem select:focus {
+.newItem input:focus,
+.newItem select:focus {
   border-color: #007bff;
   outline: none;
 }
@@ -125,22 +146,20 @@ button#btnNew:hover {
 button#btnDownloadTxt {
   background-color: #28a745;
   color: white;
-  border-color: #28a745;
 }
 
 button#btnDownloadTxt:hover {
-  background-color: #218838;
+  background-color: #00C9A7;
 }
 
 button#btnClearAll {
-  background-color: #dc3545;
+  background-color: #ff0019;
   color: white;
-  border-color: #dc3545;
   margin-top: 10px;
 }
 
 button#btnClearAll:hover {
-  background-color: #c82333;
+  background-color: #c90000;
 }
 
 /* Tabela de transações */
@@ -150,7 +169,8 @@ button#btnClearAll:hover {
   margin-bottom: 20px;
 }
 
-table th, table td {
+table th,
+table td {
   padding: 12px;
   text-align: left;
   border-bottom: 1px solid #ddd;
@@ -176,15 +196,18 @@ table td {
   color: #ff0000;
 }
 
+/* Cabeçalho */
 header {
   display: flex;
   justify-content: flex-end;
+  align-items: center;
   padding: 10px 20px;
-  background-color: #007bff;
+  background-color: #ffffff;
 }
 
+/* Botão de logout */
 .logout-btn {
-  background-color: #dc3545;
+  background-color: #ff0019;
   color: #fff;
   padding: 10px 15px;
   border: none;
@@ -195,13 +218,8 @@ header {
 }
 
 .logout-btn:hover {
-  background-color: #c82333;
+  background-color: #c90000;
   transform: scale(1.05);
-}
-
-.logout-btn:active {
-  background-color: #bd2130;
-  transform: scale(0.95);
 }
 
 /* Responsividade */
@@ -221,15 +239,26 @@ header {
 }
 
 @media (max-width: 768px) {
+  header {
+    padding: 10px;
+  }
+
+  .logout-btn {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+  }
+
   main {
     padding: 15px;
+    width: 90%;
   }
 
   h3 {
     font-size: 1.5rem;
   }
 
-  table th, table td {
+  table th,
+  table td {
     font-size: 0.8rem;
   }
 }
@@ -240,7 +269,8 @@ header {
     padding: 8px;
   }
 
-  table th, table td {
+  table th,
+  table td {
     font-size: 0.7rem;
   }
 }

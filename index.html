@@ -6,32 +6,41 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sistema Financeiro</title>
-  <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+  
+  <!-- Ícones e estilos -->
+  <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet">
   <link rel="stylesheet" href="/src/css/styleIndex.css">
   <link rel="icon" href="/src/img/favicon.png">
 </head>
 
 <body>
   <main>
-    <button id="btnLogout" class="logout-btn">Sair</button>
-    <h3>CONTROLE DE FINANÇAS</h3>
+    <!-- Botão de logout -->
+    <header>
+      <button id="btnLogout" class="logout-btn">Sair</button>
+    </header>
+
+    <!-- Título principal -->
+    <h3>Controle de Finanças</h3>
+
+    <!-- Resumo de entradas, saídas e total -->
     <div class="resume">
       <div>
-        Entradas: R$
-        <span class="incomes">0.00</span>
+        <strong>Entradas:</strong> R$ <span class="incomes">0.00</span>
       </div>
       <div>
-        Saídas: R$
-        <span class="expenses">0.00</span>
+        <strong>Saídas:</strong> R$ <span class="expenses">0.00</span>
       </div>
       <div>
-        Total: R$
-        <span class="total">0.00</span>
+        <strong>Total:</strong> R$ <span class="total">0.00</span>
       </div>
     </div>
+
+    <!-- Filtro de mês -->
     <div class="monthFilter">
       <label for="month">Selecionar mês:</label>
       <select id="month">
+        <!-- Opções de meses -->
         <option value="0">Janeiro</option>
         <option value="1">Fevereiro</option>
         <option value="2">Março</option>
@@ -46,24 +55,28 @@
         <option value="11">Dezembro</option>
       </select>
     </div>
+
+    <!-- Formulário para adicionar nova transação -->
     <div class="newItem">
-      <div class="divDesc">
-        <label for="desc">Descrição</label>
+      <div class="form-group">
+        <label for="desc">Descrição:</label>
         <input type="text" id="desc" />
       </div>
-      <div class="divAmount">
-        <label for="amount">Valor</label>
+      <div class="form-group">
+        <label for="amount">Valor:</label>
         <input type="number" id="amount" />
       </div>
-      <div class="divType">
-        <label for="type">Tipo</label>
+      <div class="form-group">
+        <label for="type">Tipo:</label>
         <select id="type">
           <option>Entrada</option>
           <option>Saída</option>
         </select>
       </div>
-      <button id="btnNew">Incluir</button>
+      <button id="btnNew" class="btn-add">Incluir</button>
     </div>
+
+    <!-- Tabela de transações -->
     <div class="divTable">
       <table>
         <thead>
@@ -76,21 +89,24 @@
           </tr>
         </thead>
         <tbody>
+          <!-- Linhas de transações serão geradas dinamicamente -->
         </tbody>
       </table>
-      <button id="btnDownloadTxt">Baixar Resumo (TXT)</button>
-      <button id="btnClearAll">Limpar Todos os Registros</button>
 
+      <!-- Botões adicionais -->
+      <button id="btnDownloadTxt" class="btn-download">Baixar Resumo (TXT)</button>
+      <button id="btnClearAll" class="btn-clear">Limpar Todos os Registros</button>
     </div>
   </main>
-  <script src="/src/js/script.js"></script>
 
+  <!-- Scripts -->
+  <script src="/src/js/script.js"></script>
   <script>
+    // Redireciona para a página de login se o usuário não estiver autenticado
     if (sessionStorage.getItem("isLoggedIn") !== "true") {
       window.location.href = "login.html";
     }
   </script>
-
 </body>
 
 </html>

@@ -5,22 +5,45 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login - Sistema Financeiro</title>
+
+  <!-- Estilo e favicon -->
   <link rel="stylesheet" href="/src/css/styleLogin.css">
   <link rel="icon" href="/src/img/favicon.png">
 </head>
 
 <body>
   <main>
+    <!-- Logo do sistema -->
+    <div class="logo">
+      <img src="/src/img/favicon.png" alt="Logo do Sistema Financeiro">
+    </div>
+
+    <!-- Título da página -->
     <h3>Login</h3>
+
+    <!-- Formulário de login -->
     <form id="loginForm">
-      <label for="username">Usuário</label>
-      <input type="text" id="username" required>
-      <label for="password">Senha</label>
-      <input type="password" id="password" required>
-      <button type="submit">Entrar</button>
+      <!-- Campo de nome de usuário -->
+      <div class="form-group">
+        <label for="username"></label>
+        <input type="text" id="username" required placeholder="🙍‍♂️ Digite seu usuário">
+      </div>
+
+      <!-- Campo de senha -->
+      <div class="form-group">
+        <label for="password"></label>
+        <input type="password" id="password" required placeholder="🔒 Digite sua senha">
+      </div>
+
+      <!-- Botão de envio -->
+      <button type="submit" class="btn-login">Entrar</button>
     </form>
-    <p id="error" style="color: red; display: none;"></p>
+
+    <!-- Mensagem de erro -->
+    <p id="error" class="error-message" style="display: none;">Usuário ou senha inválidos!</p>
   </main>
+
+  <!-- Scripts -->
   <script src="/src/js/login.js"></script>
 </body>
 
