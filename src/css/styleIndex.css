@@ -9,9 +9,17 @@ body {
 }
 
 @keyframes gradientBg {
-  0% { background: linear-gradient(135deg, #2e59d9, #224abe); }
-  50% { background: linear-gradient(135deg, #1d3faa, #0f2a73); }
-  100% { background: linear-gradient(135deg, #2e59d9, #224abe); }
+  0% {
+    background: linear-gradient(135deg, #2e59d9, #224abe);
+  }
+
+  50% {
+    background: linear-gradient(135deg, #1d3faa, #0f2a73);
+  }
+
+  100% {
+    background: linear-gradient(135deg, #2e59d9, #224abe);
+  }
 }
 
 main {
@@ -21,6 +29,7 @@ main {
   background-color: #fff;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
+  width: 90%;
 }
 
 /* Cabeçalho */
@@ -28,7 +37,7 @@ h3 {
   text-align: center;
   color: #007bff;
   margin-bottom: 30px;
-  font-size: 1.8rem;
+  font-size: clamp(1.5rem, 2vw, 2rem);
 }
 
 /* Resumo de finanças */
@@ -38,6 +47,7 @@ h3 {
   align-items: center;
   gap: 20px;
   margin-bottom: 20px;
+  flex-wrap: wrap;
 }
 
 .resume div {
@@ -48,14 +58,15 @@ h3 {
   background: #f9f9f9;
   border: 2px solid #e0e0e0;
   border-radius: 6px;
+  min-width: 100px;
 }
 
-.incomes{
+.incomes {
   font-weight: bold;
   color: #00C9A7;
 }
 
-.expenses{
+.expenses {
   font-weight: bold;
   color: #c90000;
 }
@@ -269,8 +280,17 @@ header {
     padding: 8px;
   }
 
+  .monthFilter {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
   table th,
   table td {
     font-size: 0.7rem;
+  }
+
+  .divTable {
+    overflow-x: auto;
   }
 }

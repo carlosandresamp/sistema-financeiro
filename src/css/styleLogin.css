@@ -19,9 +19,11 @@ body {
 }
 
 .logo img {
-  padding: 5px 100px;
-  max-width: 50%;
+  padding: 5px;
+  max-width: 80%;
   height: auto;
+  display: block;
+  margin: 0 auto;
 }
 
 main {
@@ -51,7 +53,7 @@ form {
 
 /* Labels */
 label {
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: bold;
   margin-bottom: 5px;
 }
@@ -59,7 +61,7 @@ label {
 /* Inputs */
 input[type="text"],
 input[type="password"] {
-  width: 375px;
+  width: 100%;
   padding: 10px;
   font-size: 1rem;
   border: 2px solid #ddd;
@@ -76,8 +78,8 @@ input[type="password"]:focus {
 
 /* Botão */
 button {
-  width: 397px;
-  height: 40px;
+  width: 100%;
+  padding: 10px;
   font-size: 1rem;
   background: #007bff;
   color: #fff;
@@ -109,8 +111,8 @@ button:active {
 /* Responsividade */
 @media (max-width: 768px) {
   main {
-    padding: 20px;
-    width: 95%;
+    padding: 15px;
+    width: 90%;
   }
 
   h3 {
@@ -119,17 +121,27 @@ button:active {
 
   button {
     font-size: 0.95rem;
+    max-width: 99%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  input[type="text"],
+  input[type="password"] {
+    font-size: 0.9rem;
+    max-width: 92%;
   }
 }
 
 @media (max-width: 480px) {
-  .logo img{
-    padding: 5px 80px;
+  .logo img {
+    max-width: 70%;
   }
 
   main {
     padding: 15px;
-    max-width: 80%;
+    width: 90%;
   }
 
   h3 {
@@ -138,18 +150,16 @@ button:active {
 
   button {
     font-size: 0.9rem;
-    padding: 8px;
-    width: 325px;
+    max-width: 99%;
   }
 
   input[type="text"],
   input[type="password"] {
-    font-size: 0.95rem;
-    padding: 8px;
-    width: 305px;
+    font-size: 0.9rem;
+    max-width: 92%;
   }
 
   label {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
   }
 }
